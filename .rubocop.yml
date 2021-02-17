@@ -1,0 +1,17 @@
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 2.4
+  Exclude:
+    - './lib/vader_sentiment_ruby/converted.rb'
+Metrics/BlockLength:
+  Exclude:
+    - './spec/**/*_spec.rb'
+Layout/SpaceAroundOperators:
+  Exclude:
+    - './vader_sentiment_ruby.gemspec'
+Layout/ExtraSpacing:
+  Exclude:
+    - './vader_sentiment_ruby.gemspec'
+Metrics/ModuleLength:
+  Exclude:
+    - './lib/vader_sentiment_ruby/constants.rb'
