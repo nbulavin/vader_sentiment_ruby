@@ -3,7 +3,7 @@
 module VaderSentimentRuby
   # Identify sentiment-relevant string-level properties of input text.
   class SentimentPropertiesIdentifier
-    attr_reader :is_cap_diff, :words_and_emoticons
+    attr_reader :words_and_emoticons, :is_cap_diff
 
     # @param [String] text
     def initialize(text)
@@ -11,14 +11,13 @@ module VaderSentimentRuby
       @text = text
       @words_and_emoticons = prepare_words_and_emoticons
       # Doesn't separate words from adjacent punctuation (keeps emoticons & contractions)
-      @is_cap_diff = all_cap_differential?(@words_and_emoticons)
+      @is_cap_diff = text_contains_mixed_cases?
     end
 
     private
 
     # Removes leading and trailing punctuation
     # Leaves contractions and most emoticons
-    # Does not preserve punc-plus-letter emoticons (e.g. :D)
     # @return [Array]
     def prepare_words_and_emoticons
       @text
@@ -28,21 +27,11 @@ module VaderSentimentRuby
 
     # Check whether just some words in the input are ALL CAPS.
     # Returns `True` if some but not all items in `words` are ALL CAPS
-    # @param [Array] words
     # @return [Boolean]
-    def all_cap_differential?(words)
-      all_cap_words = 0
+    def text_contains_mixed_cases?
+      uppercase_words = @words_and_emoticons.count { |word| WordHelper.word_upcase?(word) }
 
-      words.each do |word|
-        all_cap_words += 1 if WordHelper.word_upcase?(word)
-      end
-
-      words_size = words.size
-      cap_differential = words_size - all_cap_words
-
-      return true if cap_differential.positive? && cap_differential < words_size
-
-      false
+      uppercase_words.positive? && uppercase_words < @words_and_emoticons.size
     end
   end
 end

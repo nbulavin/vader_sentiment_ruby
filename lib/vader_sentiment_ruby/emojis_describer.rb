@@ -1,21 +1,24 @@
 # frozen_string_literal: true
 
 module VaderSentimentRuby
-  # Replaces emoji char with its description
+  # Replaces emoji characters with their descriptions
   class EmojiDescriber
-    def initialize(text, emojis)
-      @text = text
-      @emojis = emojis
+    # @param [String] text Original text
+    # @param [Hash] emoji_dictionary Emoji dictionary with emojis as keys
+    def initialize(text, emoji_dictionary)
+      @text_array = text.split('')
+      @emoji_dictionary = emoji_dictionary
       @text_no_emoji = ''
       @prev_space = true
     end
 
+    # @return [String] Text with emojis replaced with descriptions
     def call
-      @text.split('').each do |chr|
-        if @emojis.keys.include?(chr)
-          handle_emoji_presence(chr)
+      @text_array.each do |character|
+        if @emoji_dictionary.keys.include?(character)
+          replace_emoji_with_description(character)
         else
-          handle_emoji_absence(chr)
+          handle_simple_character(character)
         end
       end
 
@@ -24,14 +27,13 @@ module VaderSentimentRuby
 
     private
 
-    def handle_emoji_presence(emoji)
-      description = @emojis[emoji]
+    def replace_emoji_with_description(emoji)
       @text_no_emoji += ' ' unless @prev_space
-      @text_no_emoji += description
+      @text_no_emoji += @emoji_dictionary[emoji]
       @prev_space = false
     end
 
-    def handle_emoji_absence(character)
+    def handle_simple_character(character)
       @text_no_emoji += character
       @prev_space = character == ' '
     end

@@ -2,7 +2,7 @@
 
 RSpec.describe VaderSentimentRuby do
   it 'has a version number' do
-    expect(VaderSentimentRuby::VERSION).to eq('0.1.0')
+    expect(VaderSentimentRuby::VERSION).to eq('0.1.1')
   end
 
   describe '.polarity_scores' do
