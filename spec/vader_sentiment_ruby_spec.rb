@@ -31,6 +31,10 @@ RSpec.describe VaderSentimentRuby do
           scores: { negative: 0.0, neutral: 0.233, positive: 0.767, compound: 0.9342 }
         },
         {
+          text: 'VADER is VERY SMART, really handsome, and INCREDIBLY FUNNY!!!',
+          scores: { negative: 0.0, neutral: 0.294, positive: 0.706, compound: 0.9469 }
+        },
+        {
           text: 'VADER is VERY SMART, uber handsome, and FRIGGIN FUNNY!!!',
           scores: { negative: 0.0, neutral: 0.294, positive: 0.706, compound: 0.9469 }
         },
@@ -57,6 +61,18 @@ RSpec.describe VaderSentimentRuby do
         {
           text: 'Today SUX!',
           scores: { negative: 0.779, neutral: 0.221, positive: 0.0, compound: -0.5461 }
+        },
+        {
+          text: 'Today sux!',
+          scores: { negative: 0.736, neutral: 0.264, positive: 0.0, compound: -0.4199 }
+        },
+        {
+          text: 'Today sux',
+          scores: { negative: 0.714, neutral: 0.286, positive: 0.0, compound: -0.3612 }
+        },
+        {
+          text: 'Today kinda sux! But I\'ll get by, lol',
+          scores: { negative: 0.138, neutral: 0.517, positive: 0.344, compound: 0.5249 }
         },
         {
           text: 'Today only kinda sux! But I\'ll get by, lol',
@@ -103,6 +119,10 @@ RSpec.describe VaderSentimentRuby do
           scores: { negative: 0.548, neutral: 0.452, positive: 0.0, compound: -0.7238 }
         },
         {
+          text: 'No not GREATLY @#$%^least@#$%^&*( bad at:) all????',
+          scores: { negative: 0.548, neutral: 0.452, positive: 0.0, compound: -0.7238 }
+        },
+        {
           text: 'The book was only kind of no good.',
           scores: { negative: 0.381, neutral: 0.619, positive: 0.0, compound: -0.4017 }
         },
@@ -121,6 +141,26 @@ RSpec.describe VaderSentimentRuby do
         {
           text: 'The book was only kind of badn\'t ass good.',
           scores: { negative: 0.196, neutral: 0.571, positive: 0.233, compound: 0.1139 }
+        },
+        {
+          text: 'The food is great, but the service is horrible but',
+          scores: { negative: 0.31, neutral: 0.523, positive: 0.167, compound: -0.4939 }
+        },
+        {
+          text: 'The food is great, and the service is horrible',
+          scores: { negative: 0.24, neutral: 0.479, positive: 0.281, compound: 0.1531 }
+        },
+        {
+          text: 'The food is really great',
+          scores: { negative: 0.0, neutral: 0.477, positive: 0.523, compound: 0.6590 }
+        },
+        {
+          text: ' ',
+          scores: { negative: 0.0, neutral: 0.0, positive: 0.0, compound: 0.0 }
+        },
+        {
+          text: '',
+          scores: { negative: 0.0, neutral: 0.0, positive: 0.0, compound: 0.0 }
         }
       ].each do |test_case|
         describe "for phrase \"#{test_case[:text]}\"" do
