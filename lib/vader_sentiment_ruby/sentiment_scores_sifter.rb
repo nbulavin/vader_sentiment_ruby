@@ -3,6 +3,7 @@
 module VaderSentimentRuby
   # Separates positive versus negative sentiment scores
   class SentimentScoresSifter
+    # @param [Array<Float>] sentiments Array of sentiments generated from words
     def initialize(sentiments)
       @sentiments = sentiments
       @pos_sum = 0.0
@@ -10,6 +11,9 @@ module VaderSentimentRuby
       @neu_count = 0
     end
 
+    # @return [Array<Float, Float, Integer>]
+    # @example
+    #   [2.3, -3.2, 3]
     def call
       @sentiments.each do |sentiment_score|
         # compensates for neutral words that are counted as 1

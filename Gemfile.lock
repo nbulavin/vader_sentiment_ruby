@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    vader_sentiment_ruby (0.1.0)
+    vader_sentiment_ruby (0.1.1)
 
 GEM
   remote: https://rubygems.org/

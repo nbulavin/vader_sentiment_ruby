@@ -10,16 +10,19 @@ module VaderSentimentRuby
       compound: 0.0
     }.freeze
 
+    # @param [Array<Float, Integer>] sentiments Array of sentiments for text
+    # @param [String] text
     def initialize(sentiments, text)
       @sentiments = sentiments
       @text = text
     end
 
+    # @return [Hash<Float, Float, Float, Float>] Semantic score response hash
     def call
-      return DEFAULT_RESPONSE unless @sentiments
+      return DEFAULT_RESPONSE if @sentiments.empty?
 
       sum_s = @sentiments.map(&:to_f).sum
-      # compute and add emphasis from punctuation in text
+      # Compute and add emphasis from punctuation in text
       punct_emph_amplifier = PunctuationEmphasisAmplifier.new(@text).call
       compound = normalize(sum_s, punct_emph_amplifier)
 
@@ -28,9 +31,7 @@ module VaderSentimentRuby
 
     private
 
-    # Normalize the score to be between -1 and 1 using an alpha that
-    # approximates the max expected value
-    # Move to Sentiment analyzer
+    # Normalizes the score to be between -1 and 1 using an alpha that approximates the max expected value
     def normalize(score, punct_emph_amplifier, alpha = 15)
       score = add_punctuation_emphasis(score, punct_emph_amplifier)
       norm_score = score / Math.sqrt((score * score) + alpha).to_f
@@ -42,11 +43,8 @@ module VaderSentimentRuby
     end
 
     def add_punctuation_emphasis(sum_s, punct_emph_amplifier)
-      if sum_s.positive?
-        sum_s += punct_emph_amplifier
-      elsif sum_s.negative?
-        sum_s -= punct_emph_amplifier
-      end
+      return sum_s + punct_emph_amplifier if sum_s.positive?
+      return sum_s - punct_emph_amplifier if sum_s.negative?
 
       sum_s
     end
@@ -65,9 +63,9 @@ module VaderSentimentRuby
     end
     # rubocop:enable Metrics/AbcSize
 
-    # Prepare scores sum for result calculation
+    # Prepares score sums for result calculation
     def scores(punct_emph_amplifier)
-      # discriminate between positive, negative and neutral sentiment scores
+      # Discriminate between positive, negative and neutral sentiment scores
       pos_sum, neg_sum, neu_count = SentimentScoresSifter.new(@sentiments).call
 
       if pos_sum > neg_sum.to_f.abs
